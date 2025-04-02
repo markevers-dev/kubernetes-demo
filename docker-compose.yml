@@ -1,17 +1,16 @@
 services:
   frontend:
-    image: node:23
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: react-frontend
     working_dir: /app
     volumes:
       - ./frontend:/app
-    command: sh -c "npm install && npm run build && npx serve -s dist"
     ports:
-      - "3000:3000"
+      - "4173:4173"
     depends_on:
       - backend
-    environment:
-      - REACT_APP_API_URL=http://localhost:5000
     networks:
       - my_custom_network
 
@@ -21,8 +20,12 @@ services:
       dockerfile: Dockerfile
     container_name: express-backend
     working_dir: /app
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app
     ports:
-      - "5000:80"
+      - "5000:5000"
     depends_on:
       - db
     networks:
@@ -33,12 +36,11 @@ services:
       context: ./database
       dockerfile: Dockerfile
     container_name: postgres-db
-    env_file:
-      - .env
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    hostname: postgres-db
     networks:
       - my_custom_network
 
@@ -47,4 +49,3 @@ volumes:
 
 networks:
   my_custom_network:
-    driver: bridge

@@ -5,6 +5,24 @@
   text-align: center;
 }
 
+.task-header {
+  color: #4a5759;
+}
+
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.task {
+  padding: 1rem;
+  background-color: #b0c4b1;
+  font-weight: 700;
+  color: #4a5759;
+  border-radius: 1rem;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
